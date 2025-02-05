@@ -8,7 +8,8 @@ class ImageEditor:
     def __init__(self, root):
         self.root = root
         self.root.title("HIT137 Assignment 3 Image Editor")
-        
+        root.geometry("500x600")
+
         # Variables
         self.original_image = None
         self.display_image = None
@@ -24,14 +25,42 @@ class ImageEditor:
         self.load_button.pack()
         
         self.crop_button = tk.Button(root, text="Crop Image or remove selected area", command=self.start_cropping, fg = "red")
-        self.crop_button.pack()
+        self.crop_button.pack(anchor = "s", padx = 10, pady = 10)
         
-        self.resize_slider = tk.Scale(root, from_=1, to=100, orient=tk.HORIZONTAL, label="Resize/Distort", command=self.apply_resize, fg = "blue")
-        self.resize_slider.pack()
+        # self.resize_slider = tk.Scale(root, from_=1, to=100, orient=tk.HORIZONTAL, label="Resize/Distort", command=self.apply_resize, fg = "blue")
+        # self.resize_slider.pack(anchor = "sw")
+
+        ###
+        original_image = Image.open("Select Image")
+        original_size = original_image.size[0]
+
+        tk_image = ImageTk.PhotoImage(original_image)
+        image_label = tk.Label(root, image=tk_image)
+        image_label.pack()
+        
+        slider = ttk.Scale(root, from_=50, to= original_size * 2, orient='horizontal', command=lambda value: update_image(int(float(value))))
+        slider.set(original_size)
+        slider.pack()
+        ###
         
         self.save_button = tk.Button(root, text="Save Image", command=self.save_image, fg = "green")
-        self.save_button.pack()
+        self.save_button.pack(anchor = "se", side = "right", padx = 10, pady = 10)
         
+        ##
+        # text_area = tk.Text(root, undo=True)
+        # text_area.pack(expand=True, fill='both')
+
+        def undo_action():
+            try:
+                text_area.edit_undo()
+            except tk.TclError:
+                pass
+
+        undo_button = tk.Button(root, text="Undo", command=undo_action, fg = "orange")
+        undo_button.pack(side='bottom', anchor = "se", padx = 10, pady = 10)
+        #
+
+
         # Canvas Mouse Events for Cropping
         self.canvas.bind("<ButtonPress-1>", self.start_selection)
         self.canvas.bind("<B1-Motion>", self.update_selection)
