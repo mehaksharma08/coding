@@ -146,8 +146,8 @@ class ImageEditor:
         scale_x = img_w / 500  # Canvas width is 500
         scale_y = img_h / 400  # Canvas height is 400
 
-        x1, x2 = int(x1 * scale_x), int(x2 * s
-        y1, y2 = int(y1 * scale_y), int(y2 * s
+        x1, x2 = int(x1 * scale_x), int(x2 * scale_x)
+        y1, y2 = int(y1 * scale_y), int(y2 * scale_y)
 
         # Ensuring it is a  valid crop
         if x1 < 0 or y1 < 0 or x2 > img_w or y2 > img_h or x1 == x2 or y1 == y2:
