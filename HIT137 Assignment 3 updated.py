@@ -3,6 +3,7 @@ import numpy as np
 import tkinter as tk
 from tkinter import filedialog, ttk
 from PIL import Image, ImageTk
+from tkinter import messagebox
 
 class ImageEditor:
     def __init__(self, root):
@@ -58,13 +59,42 @@ class ImageEditor:
 
         undo_button = tk.Button(root, text="Undo", command=undo_action, fg = "orange")
         undo_button.pack(side='bottom', anchor = "se", padx = 10, pady = 10)
-        #
+        ##
+        # Redo Key
+        def redo_text():
+            try:
+                text_widget.edit_redo()
+            except tk.TclError:
+                pass
+
+        redo_button = tk.Button(root, text="Redo", command=redo_text)
+        redo_button.pack(side="right", padx=5, pady=5)
+
+        root.bind("<Control-z>", lambda event: undo_text())  # Ctrl+Z for undo
+        root.bind("<Control-y>", lambda event: redo_text())  # Ctrl+Y for redo
 
 
         # Canvas Mouse Events for Cropping
         self.canvas.bind("<ButtonPress-1>", self.start_selection)
         self.canvas.bind("<B1-Motion>", self.update_selection)
         self.canvas.bind("<ButtonRelease-1>", self.finalize_selection)
+
+        root = tk.Tk()
+        
+        def welcome(event=None):  # The event argument is needed for key bindings
+            messagebox.showinfo("Shortcut", "Welcome! You pressed Ctrl+H")
+
+        def quit_app(event=None):
+            root.quit()
+
+        button = tk.Button(root, text="Welcome", command=welcome)
+        button.pack(pady=20)
+
+        root.bind("<Control-h>", welcome)   # Ctrl+H to say Hello
+        root.bind("<Control-q>", debug)
+
+        def debug():
+            print("here")
         
     def load_image(self):
         file_path = filedialog.askopenfilename()
