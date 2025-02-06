@@ -1,5 +1,5 @@
 import cv2
-import numpy as np
+import numpy as 
 import tkinter as tk
 from tkinter import filedialog, ttk
 from PIL import Image, ImageTk
