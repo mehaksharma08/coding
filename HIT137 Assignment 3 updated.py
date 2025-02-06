@@ -5,6 +5,9 @@ from tkinter import filedialog, ttk
 from PIL import Image, ImageTk
 from tkinter import messagebox
 
+def debug():
+    print("here")
+
 class ImageEditor:
     def __init__(self, root):
         self.root = root
@@ -93,8 +96,6 @@ class ImageEditor:
         root.bind("<Control-h>", welcome)   # Ctrl+H to say Hello
         root.bind("<Control-q>", debug)
 
-        def debug():
-            print("here")
         
     def load_image(self):
         file_path = filedialog.askopenfilename()
