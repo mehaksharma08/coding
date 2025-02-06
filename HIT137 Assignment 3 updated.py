@@ -54,11 +54,14 @@ class ImageEditor:
         # text_area = tk.Text(root, undo=True)
         # text_area.pack(expand=True, fill='both')
 
+        text_widget = tk.Button
+        edit_undo = tk.Button
+        undo_text = tk.Button
         def undo_action():
             try:
                 edit_undo()
             except tk.TclError:
-                pass
+                pass 
 
         undo_button = tk.Button(root, text="Undo", command=undo_action, fg = "orange")
         undo_button.pack(side='bottom', anchor = "se", padx = 10, pady = 10)
@@ -70,13 +73,13 @@ class ImageEditor:
             except tk.TclError:
                 pass
 
-        redo_button = tk.Button(root, text="Redo", command=redo_text)
-        redo_button.pack(side="right", padx=5, pady=5)
+        
+        redo_button = tk.Button(root, text="Redo", command=redo_text , fg = "red")
+        redo_button.pack(side="bottom", anchor = "sw", padx=10, pady=10)
 
         root.bind("<Control-z>", lambda event: undo_text())  # Ctrl+Z for undo
         root.bind("<Control-y>", lambda event: redo_text())  # Ctrl+Y for redo
-
-
+    
         # Canvas Mouse Events for Cropping
         self.canvas.bind("<ButtonPress-1>", self.start_selection)
         self.canvas.bind("<B1-Motion>", self.update_selection)
@@ -84,18 +87,17 @@ class ImageEditor:
 
         root = tk.Tk()
         
-        def welcome(event=None):  # The event argument is needed for key bindings
+        def welcome(event=None):  # For Key Bindings
             messagebox.showinfo("Shortcut", "Welcome! You pressed Ctrl+H")
 
         def quit_app(event=None):
             root.quit()
 
-        button = tk.Button(root, text="Welcome", command=welcome)
+        button = tk.Button(root, text="Welcome to the HIT137 Image Editor!", command=welcome)
         button.pack(pady=20)
 
         root.bind("<Control-h>", welcome)   # Ctrl+H to say Hello
         root.bind("<Control-q>", debug)
-
         
     def load_image(self):
         file_path = filedialog.askopenfilename()
